@@ -4,6 +4,7 @@ metadata:
   name: jobtest
   annotations:
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/hook: PreSync
 spec:
   backoffLimit: 1
   completions: 1
