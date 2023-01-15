@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: testapp
-        image: nginx:latest
+        image: httpd
         command:
         - sleep
         - "3600"
