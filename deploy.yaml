@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: testapp
-        image: httpd:2.3
+        image: httpd:2.5
         command:
         - sleep
         - "3600"
