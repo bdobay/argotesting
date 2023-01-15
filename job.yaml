@@ -16,5 +16,5 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
         - sleep 20;
-          exit 1;
+          exit 0;
       restartPolicy: Never
