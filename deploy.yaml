@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: testapp
-        image: amazon/aws-cli:latest
+        image: nginx:1.22.1
         command:
         - sleep
         - "3600"
