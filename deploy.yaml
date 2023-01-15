@@ -14,7 +14,6 @@ spec:
       labels:
         app: testapp2
     spec:
-      serviceAccountName: testserviceaccount
       containers:
       - name: testapp
         image: amazon/aws-cli:latest
