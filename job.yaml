@@ -13,5 +13,8 @@ spec:
       containers:
       - name: jobtest
         image: busyboxwwww
-        command: ["sleep", "30"]
+        command: ["/bin/sh", "-c"]
+        args:
+        - sleep 20;
+          exit 1;
       restartPolicy: Never
