@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: test-deployment3
+  namespace: default
   labels:
     app: testapp2
 spec:
