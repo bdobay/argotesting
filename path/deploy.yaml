@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       run: debug
-  replicas: 7
+  replicas: 3
   template:
     metadata:
       labels:
