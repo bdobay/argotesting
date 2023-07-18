@@ -2,6 +2,7 @@ apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
   name: cluster1
+  namespace: default
 spec:
   image: docker.io/bitnami/rabbitmq:3.9.16-debian-10-r13
   replicas: 3
