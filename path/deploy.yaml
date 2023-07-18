@@ -1,0 +1,27 @@
+  selector:
+    matchLabels:
+      run: debug
+  replicas: 7
+  template:
+    metadata:
+      labels:
+        run: debug
+    spec:
+      #priorityClassName: high-priority-nonpreempting
+      #affinity:
+      #  nodeAffinity:
+      #    requiredDuringSchedulingIgnoredDuringExecution:
+      #      nodeSelectorTerms:
+      #      - matchExpressions:
+      #        - key: topology.kubernetes.io/zone
+      #          operator: In
+      #          values:
+      #          - us-east-1b     
+      containers:
+      - name: debug
+        image: bdobay/python-pika:v2.2
+        resources:
+          requests:
+            memory: "250Mi"
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
