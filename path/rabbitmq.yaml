@@ -4,7 +4,7 @@ metadata:
   name: cluster1
   namespace: default
   annotations:
-    #argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   image: docker.io/bitnami/rabbitmq:3.9.16-debian-10-r13
   replicas: 3
