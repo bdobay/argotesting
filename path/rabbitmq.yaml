@@ -1,0 +1,49 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: cluster1
+spec:
+  image: docker.io/bitnami/rabbitmq:3.9.16-debian-10-r13
+  replicas: 3
+  secretBackend:
+    externalSecret: 
+      name: "my-secret"
+  persistence:
+    storageClassName: gp3-encrypted
+    storage: 20Gi
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            containers:
+              - name: rabbitmq
+            #priorityClassName: high-priority-nonpreempting 
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 70
+        preference:
+          matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1a
+      - weight: 40
+        preference:
+          matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1b 
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - cluster1
+            topologyKey: topology.kubernetes.io/zone
+          weight: 100
