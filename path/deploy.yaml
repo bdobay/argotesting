@@ -23,7 +23,7 @@ spec:
       #          operator: In
       #          values:
       #          - us-east-1b     
-      containerss:
+      containers:
       - name: debug
         image: bdobay/python-pika:v2.2
         resources:
