@@ -6,9 +6,6 @@ metadata:
 spec:
   image: docker.io/bitnami/rabbitmq:3.9.16-debian-10-r13
   replicas: 1
-  persistence:
-    storageClassName: gp3-encrypted
-    storage: 20Gi
   override:
     statefulSet:
       spec:
