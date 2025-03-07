@@ -7,7 +7,7 @@ metadata:
   namespace: kube-system
   labels:
     app: elastic-agent
-    hi: hello
+    hi: hello2
 spec:
   selector:
     matchLabels:
