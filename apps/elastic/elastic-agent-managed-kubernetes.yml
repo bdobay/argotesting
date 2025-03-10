@@ -7,7 +7,6 @@ metadata:
   namespace: kube-system
   labels:
     app: elastic-agent
-    hi: hello2
 spec:
   selector:
     matchLabels:
@@ -25,11 +24,9 @@ spec:
         - key: node-role.kubernetes.io/master
           effect: NoSchedule
       serviceAccountName: elastic-agent
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      dnsPolicy: ClusterFirst
       containers:
-        - name: nginx
-          image: nginx:latest
         - name: elastic-agent
           image: docker.elastic.co/beats/elastic-agent:8.17.3
           env:
@@ -41,15 +38,11 @@ spec:
               value: "false"
             # Fleet Server URL to enroll the Elastic Agent into
             # FLEET_URL can be found in Kibana, go to Management > Fleet > Settings
-            - name: FLEET_URL
-              value: "https://653590f152b.fleet.us-central1.gcp.cloud.es.io:443"
-            # Elasticsearch API key used to enroll Elastic Agents in Fleet (https://www.elastic.co/guide/en/fleet/current/fleet-enrollment-tokens.html#fleet-enrollment-tokens)
-            # If FLEET_ENROLLMENT_TOKEN is empty then KIBANA_HOST, KIBANA_FLEET_USERNAME, KIBANA_FLEET_PASSWORD are needed
             - name: FLEET_ENROLLMENT_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: my-secret
-                  key: MY_SECRET_KEY
+                  name: elastic-fleet-enrollment-token
+                  key: fleet_enrollment_token
             - name: KIBANA_HOST
               value: "http://kibana:5601"
             # The basic authentication username used to connect to Kibana and retrieve a service_token to enable Fleet
@@ -90,7 +83,7 @@ spec:
             #    - SYS_ADMIN
           resources:
             limits:
-              memory: 700Mi
+              memory: 1200Mi
             requests:
               cpu: 100m
               memory: 400Mi
@@ -116,10 +109,6 @@ spec:
             - name: etc-mid
               mountPath: /etc/machine-id
               readOnly: true
-            - name: sys-kernel-debug
-              mountPath: /sys/kernel/debug
-            - name: elastic-agent-state
-              mountPath: /usr/share/elastic-agent/state
       volumes:
         - name: proc
           hostPath:
@@ -148,18 +137,6 @@ spec:
           hostPath:
             path: /etc/machine-id
             type: File
-        # Needed for 'Defend for containers' integration (cloud-defend) and Universal Profiling
-        # If you are not using one of these integrations, then these volumes and the corresponding
-        # mounts can be removed.
-        - name: sys-kernel-debug
-          hostPath:
-            path: /sys/kernel/debug
-        # Mount /var/lib/elastic-agent-managed/kube-system/state to store elastic-agent state
-        # Update 'kube-system' with the namespace of your agent installation
-        - name: elastic-agent-state
-          hostPath:
-            path: /var/lib/elastic-agent-managed/kube-system/state
-            type: DirectoryOrCreate
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
