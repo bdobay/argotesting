@@ -28,6 +28,8 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       containers:
+        - name: nginx
+          image: nginx:latest
         - name: elastic-agent
           image: docker.elastic.co/beats/elastic-agent:8.17.3
           env:
